@@ -55,8 +55,6 @@ function hitOthers(tableCell) {
 function checkIsWholeShip(x, y){
     ship.push({x, y});
     checkIsLonger(x,y);
-    console.log(ship);
-    console.log(isAll());
     if(isAll()){
         for (var i = 0; i < ship.length; i++) {
             getNeighbours(ship[i].x, ship[i].y)
@@ -66,7 +64,18 @@ function checkIsWholeShip(x, y){
 
 //paint neighbours 
 function getNeighbours(x,y){
-
+    if(x > 1 && !isShipCell(rivalTable.rows[y].cells[x-1])){
+        setCell(x-1,y)
+    }    
+    if(x < 10 && !isShipCell(rivalTable.rows[y].cells[x+1])){
+        setCell(x+1,y)
+    }    
+    if(y > 1 && !isShipCell(rivalTable.rows[y-1].cells[x])){
+        setCell(x,y-1)
+    }    
+    if(y < 10 && !isShipCell(rivalTable.rows[y+1].cells[x])){
+        setCell(x,y+1)
+    }
 }
 
 //save ship cells
