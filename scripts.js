@@ -1,6 +1,6 @@
 let table = document.getElementById("ownTable");
 let rivalTable = document.getElementById("rivalsTable");
-let direction = null;
+let ship = {};
 
 if (table != null) {
     for (var i = 0; i < table.rows.length; i++) {
@@ -10,27 +10,29 @@ if (table != null) {
             let y = getY(this);
             this.setAttribute('class', 'fill');
             this.style.cursor = 'unset';
-            console.log(x,y);
         };
     }
 }
 
+//add on click action on rival cells
 if (rivalTable != null) {
     for (var i = 0; i < rivalTable.rows.length; i++) {
         for (var j = 0; j < rivalTable.rows[i].cells.length; j++)
         rivalTable.rows[i].cells[j].onclick = function () {
             this.style.backgroundColor = 'grey';
             if(isHidden(this))  {  
+                ship = [];
                 direction = null;
+                this.setAttribute("hitten", "true");
                 hitOthers(this);
                 this.style.backgroundColor = 'green';
-                this.setAttribute("hitten", "true");
             }
             this.style.cursor = 'unset';
         };
     }
 }
 
+//hit neighbour cells 
 function hitOthers(tableCell) {
     let x = parseInt(getX(tableCell));
     let y = parseInt(getY(tableCell));
@@ -49,35 +51,79 @@ function hitOthers(tableCell) {
     checkIsWholeShip(x,y);
 }
 
+//check is whole ship painting
 function checkIsWholeShip(x, y){
-    if(checkIsAll(x,y)){
-        console.log(x,y, direction)
-        if(x > 1 && 
-        !isHidden(rivalTable.rows[y].cells[x-1]) && 
-        (direction === null || direction === 'hor') && 
-        !rivalTable.rows[y].cells[x-1].hasAttribute('hitten')) {
-            direction = 'hor';
-            checkIsWholeShip(x-1, y);
-            setCell(x-1, y);
-        }
-        if(y > 1 && !isHidden(rivalTable.rows[y-1].cells[x]) && (direction === null || direction === 'ver') && ! rivalTable.rows[y-1].cells[x].hasAttribute('hitten')) {
-            direction = 'ver';
-            checkIsWholeShip(x, y-1);
-            setCell(x, y-1);
-        }
-        if(y < 10  && !isHidden(rivalTable.rows[y+1].cells[x]) && (direction === null || direction === 'ver') && ! rivalTable.rows[y+1].cells[x].hasAttribute('hitten')){
-            direction = 'ver';
-            checkIsWholeShip(x, y+1);
-            setCell(x, y+1);
-        }
-        if(x < 10  && !isHidden(rivalTable.rows[y].cells[x+1]) && (direction === null || direction === 'hor') && ! rivalTable.rows[y].cells[x+1].hasAttribute('hitten')){
-            direction = 'hor';
-            checkIsWholeShip(x+1, y);
-            setCell(x+1, y);
+    ship.push({x, y});
+    checkIsLonger(x,y);
+    console.log(ship);
+    console.log(isAll());
+    if(isAll()){
+        for (var i = 0; i < ship.length; i++) {
+            getNeighbours(ship[i].x, ship[i].y)
         }
     }
 }
 
+//paint neighbours 
+function getNeighbours(x,y){
+
+}
+
+//save ship cells
+function pushCell(x, y) {
+    let pair = {x, y};
+    ship.push(pair);
+}
+
+//check is ship longer than 1
+function checkIsLonger(x,y){
+    checkLeft(x-1, y);
+    checkRight(x+1, y);
+    checkUp(x, y-1);
+    checkDown(x, y+1);
+}
+
+function checkLeft(x,y){
+    if(ship.includes({x,y})) return;
+    if(x > 1 && isShipCell(rivalTable.rows[y].cells[x])) {    
+        pushCell(x, y);
+        checkLeft(x-1, y);
+    } 
+}
+
+function checkRight(x,y){
+    if(ship.includes({x,y})) return;
+    if(x < 10 && isShipCell(rivalTable.rows[y].cells[x])) {    
+        pushCell(x, y);
+        checkRight(x+1, y);
+    } 
+}
+
+function checkUp(x,y){
+    if(ship.includes({x,y})) return;
+    if(y > 1 && isShipCell(rivalTable.rows[y].cells[x])) {
+        pushCell(x, y);
+        checkUp(x,y-1)
+    }
+}
+
+function checkDown(x,y){
+    if(ship.includes({x,y})) return;
+    if(y < 10 && isShipCell(rivalTable.rows[y].cells[x])) {
+        pushCell(x, y);
+        checkDown(x,y+1)
+    }
+}
+
+//check is whole ship hitten
+function isAll(){
+    for (var i = 0; i < ship.length; i++) {
+        if (!rivalTable.rows[ship[i].y].cells[ship[i].x].hasAttribute('hitten')) return false;
+    }
+    return true;
+}
+
+//set hitten cell values
 function setCell(x, y) {
     if(!rivalTable.rows[y].cells[x].hasAttribute('hitten')){
         rivalTable.rows[y].cells[x].style.backgroundColor = 'grey';
@@ -86,29 +132,31 @@ function setCell(x, y) {
     }
 }
 
-function checkIsAll(x, y) {
-    if(x > 1 && isHiddenShipCell(rivalTable.rows[y].cells[x-1])) return false;
-    if(y > 1 && isHiddenShipCell(rivalTable.rows[y-1].cells[x])) return false;
-    if(x < 10 && isHiddenShipCell(rivalTable.rows[y].cells[x+1])) return false;
-    if(y < 10 && isHiddenShipCell(rivalTable.rows[y+1].cells[x])) return false;
-    return true;
-}
-
+//check is hidden ship cell
 function isHiddenShipCell(cell) {
     if(cell.getAttribute('hovered') === 'true' && ! cell.hasAttribute('hitten')) return true;
     return false;
 }
 
+//check is ship cell
+function isShipCell(cell){
+    if(cell.getAttribute('hovered') === 'true') return true;
+    return false;    
+}
+
+//check is ship cell
 function isHidden(tableCell) {
     if(tableCell.getAttribute('hovered') === 'true'){
         return true;
     }
 }
 
+//get y cell position
 function getX(tableCell) {
     return tableCell.getAttribute('x');
 }
 
+//get x cell position 
 function getY(tableCell) {
     return tableCell.getAttribute('y');
 }
