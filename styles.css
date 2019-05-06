@@ -1,0 +1,100 @@
+body {
+    margin: 0;
+}
+
+#container{
+    background-color: darkgoldenrod;
+    text-align: center;
+    height: 80vh;
+    padding: 10vh;
+}
+
+#battle {
+    display: grid;
+    grid-template-columns: 100%;
+}
+
+@media (min-width: 1000px){
+    #battle {
+        grid-template-columns: 50% 50%;
+    }
+}
+
+#battlefieldOwn,
+#battlefieldRival {
+    justify-items: center;
+    margin: 10px auto;
+
+}
+
+#shipsRival,
+#shipsOwn {
+    display: inline-flex;
+}
+
+.ships {
+    margin-top: 15px;
+    border-spacing: 0;
+}
+
+.ship {
+    font-size:14px;
+    padding:6px;
+    border-style:solid;
+    border-width:1px;
+    overflow:hidden;
+    word-break:normal;
+    border-color:black;    
+}
+
+.break {
+    padding: 5px;
+}
+
+.tg  {
+    border-collapse:collapse;
+    border-spacing:0;
+}
+
+.tg td{
+    font-family:Arial, sans-serif;
+    font-size:14px;
+    padding:20px;
+    border-style:solid;
+    border-width:1px;
+    overflow:hidden;
+    word-break:normal;
+    border-color:black;
+}
+
+.tg td:hover {
+    cursor: pointer;
+}
+
+.tg th{ 
+    font-family:Arial, sans-serif;
+    font-size:14px;
+    font-weight:normal;
+    padding:10px;
+    border-width:1px;
+    overflow:hidden;
+    word-break:normal;
+    border-color:black;
+}
+
+.tg .tg-ltxa{
+    background-color:white;
+    text-align:left;
+    vertical-align:top
+}
+
+.tg .tg-90e1{
+    background-color:white;
+    border-color:inherit;
+    text-align:left;
+    vertical-align:top
+}
+
+.tg .fill {
+    background-color: green;
+}
