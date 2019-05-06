@@ -48,6 +48,10 @@ function hitOthers(tableCell) {
         rivalTable.rows[y+1].cells[x+1].style.backgroundColor = 'grey';
         rivalTable.rows[y+1].cells[x+1].setAttribute("hitten", "true");
     }
+    checkIsWholeShip(x,y);
+}
+
+function checkIsWholeShip(x, y){
     if(checkIsAll(x,y)){
         if(x > 1 && !isHidden(rivalTable.rows[y].cells[x-1])) {
             rivalTable.rows[y].cells[x-1].style.backgroundColor = 'grey';
@@ -61,6 +65,14 @@ function hitOthers(tableCell) {
         if(x < 10  && !isHidden(rivalTable.rows[y].cells[x+1])) {
             rivalTable.rows[y].cells[x+1].style.backgroundColor = 'grey';
         }
+    }
+}
+
+function colorFields(tab) {
+    for (var i = 0; i < tab.length; i++) {
+        rivalTable.rows[tab[i].x].cells[tab[i].y].onclick = function () {
+            this.style.backgroundColor = 'grey';
+        };
     }
 }
 
