@@ -1,5 +1,6 @@
 let table = document.getElementById("ownTable");
 let rivalTable = document.getElementById("rivalsTable");
+let shipsRival = document.getElementById("shipsRival");
 let ship = {};
 let ships = [4, 3, 3, 2, 2, 2, 1, 1, 1, 1];
 
@@ -9,7 +10,6 @@ if (table != null) {
         table.rows[i].cells[j].onclick = function () {
             let x = getX(this);
             let y = getY(this);
-            this.setAttribute('class', 'fill');
             this.style.cursor = 'unset';
         };
     }
@@ -37,7 +37,17 @@ if (rivalTable != null) {
 function checkIsWin() {
     if(ships.length > 0) return false;
     console.log('You win!!!');
+    notHittens();
     return true;
+}
+
+function notHittens(){
+    for (var i = 1; i < rivalTable.rows.length; i++) {
+        for (var j = 1; j < rivalTable.rows[i].cells.length; j++)
+            if(!rivalTable.rows[i].cells[j].hasAttribute('hitten')){
+                setCell(j,i)
+            }
+    }
 }
 
 //hit neighbour cells 
@@ -64,14 +74,30 @@ function checkIsWholeShip(x, y){
     ship.push({x, y});
     checkIsLonger(x,y);
     if(isAll()){
-        for (var i = 0; i < ship.length; i++) {
+        for (let i = 0; i < ship.length; i++) {
             getNeighbours(ship[i].x, ship[i].y)
         }
-        var index = ships.indexOf(ship.length);
+        const index = ships.indexOf(ship.length);
         if (index > -1) {
             ships.splice(index, 1);
         }
-        console.log(ships)
+        getShip();
+    }
+}
+
+function getShip() {
+    for (let i = 0; i < shipsRival.rows[0].cells.length; i++){
+        if(parseInt(shipsRival.rows[0].cells[i].getAttribute('long')) === ship.length && ! shipsRival.rows[0].cells[i].hasAttribute('colored')){
+            colorShip(0,i, ship.length);
+            return;
+        }
+    }
+}
+
+function colorShip(x, y, long){
+    for(let i = 0; i < long; i++){
+        shipsRival.rows[x].cells[y+i].style.backgroundColor = 'green';
+        shipsRival.rows[x].cells[y+i].setAttribute("colored", "true");
     }
 }
 

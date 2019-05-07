@@ -27,12 +27,13 @@ body {
 
 }
 
-#shipsRival,
-#shipsOwn {
+.ships {
     display: inline-flex;
 }
 
-.ships {
+
+#shipsRival,
+#shipsOwn {
     margin-top: 15px;
     border-spacing: 0;
 }
