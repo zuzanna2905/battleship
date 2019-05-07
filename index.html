@@ -11,9 +11,10 @@
         <div id='container'>
             <div id='hello'>
                 <span></span>
+                <button onclick="resetGame()">RESET GAME</button>
             </div>
             <div id='battle'>
-                <!-- <div id='battlefieldOwn'>
+                <div id='battlefieldOwn'>
                     <span>Your field</span>
                     <table class="tg" id="ownTable">
                         <tr>
@@ -35,17 +36,17 @@
                             <td class="tg-ltxa" x=2 y=1></td>
                             <td class="tg-ltxa" x=3 y=1></td>
                             <td class="tg-ltxa" x=4 y=1></td>
-                            <td class="tg-ltxa fill" x=5 y=1></td>
-                            <td class="tg-ltxa fill" x=6 y=1></td>
-                            <td class="tg-ltxa fill" x=7 y=1></td>
-                            <td class="tg-ltxa fill" x=8 y=1></td>
+                            <td class="tg-ltxa fill" hovered=true x=5 y=1></td>
+                            <td class="tg-ltxa fill" hovered=true x=6 y=1></td>
+                            <td class="tg-ltxa fill" hovered=true x=7 y=1></td>
+                            <td class="tg-ltxa fill" hovered=true x=8 y=1></td>
                             <td class="tg-ltxa" x=9 y=1></td>
                             <td class="tg-ltxa" x=10 y=1></td>
                         </tr>
                         <tr>
                             <th class="label">B</th>
                             <td class="tg-ltxa" x=1 y=2></td>
-                            <td class="tg-ltxa fill" x=2 y=2></td>
+                            <td class="tg-ltxa fill" hovered=true x=2 y=2></td>
                             <td class="tg-ltxa" x=3 y=2></td>
                             <td class="tg-ltxa" x=4 y=2></td>
                             <td class="tg-ltxa" x=5 y=2></td>
@@ -62,7 +63,7 @@
                             <td class="tg-ltxa" x=3 y=3></td>
                             <td class="tg-ltxa" x=4 y=3></td>
                             <td class="tg-ltxa" x=5 y=3></td>
-                            <td class="tg-ltxa fill" x=6 y=3></td>
+                            <td class="tg-ltxa fill" hovered=true x=6 y=3></td>
                             <td class="tg-ltxa" x=7 y=3></td>
                             <td class="tg-ltxa" x=8 y=3></td>
                             <td class="tg-ltxa" x=9 y=3></td>
@@ -70,23 +71,23 @@
                         </tr>
                         <tr>
                             <th class="label">D</th>
-                            <td class="tg-ltxa fill" x=1 y=4></td>
+                            <td class="tg-ltxa fill" hovered=true x=1 y=4></td>
                             <td class="tg-ltxa" x=2 y=4></td>
                             <td class="tg-ltxa" x=3 y=4></td>
                             <td class="tg-ltxa" x=4 y=4></td>
                             <td class="tg-ltxa" x=5 y=4></td>
-                            <td class="tg-ltxa fill" x=6 y=4></td>
+                            <td class="tg-ltxa fill" hovered=true x=6 y=4></td>
                             <td class="tg-ltxa" x=7 y=4></td>
                             <td class="tg-ltxa" x=8 y=4></td>
                             <td class="tg-ltxa" x=9 y=4></td>
-                            <td class="tg-ltxa fill" x=10 y=4></td>
+                            <td class="tg-ltxa fill" hovered=true x=10 y=4></td>
                         </tr>
                         <tr>
                             <th class="label">E</th>
                             <td class="tg-ltxa" x=1 y=5></td>
                             <td class="tg-ltxa" x=2 y=5></td>
                             <td class="tg-ltxa" x=3 y=5></td>
-                            <td class="tg-ltxa fill" x=4 y=5></td>
+                            <td class="tg-ltxa fill" hovered=true x=4 y=5></td>
                             <td class="tg-ltxa" x=5 y=5></td>
                             <td class="tg-ltxa" x=6 y=5></td>
                             <td class="tg-ltxa" x=7 y=5></td>
@@ -99,11 +100,11 @@
                             <td class="tg-ltxa" x=1 y=6></td>
                             <td class="tg-ltxa" x=2 y=6></td>
                             <td class="tg-ltxa" x=3 y=6></td>
-                            <td class="tg-ltxa fill" x=4 y=6></td>
+                            <td class="tg-ltxa fill" hovered=true x=4 y=6></td>
                             <td class="tg-ltxa" x=5 y=6></td>
                             <td class="tg-ltxa" x=6 y=6></td>
-                            <td class="tg-ltxa fill" x=7 y=6></td>
-                            <td class="tg-ltxa fill" x=8 y=6></td>
+                            <td class="tg-ltxa fill" hovered=true x=7 y=6></td>
+                            <td class="tg-ltxa fill" hovered=true x=8 y=6></td>
                             <td class="tg-ltxa" x=9 y=6></td>
                             <td class="tg-ltxa" x=10 y=6></td>
                         </tr>
@@ -128,18 +129,18 @@
                             <td class="tg-ltxa" x=4 y=8></td>
                             <td class="tg-ltxa" x=5 y=8></td>
                             <td class="tg-ltxa" x=6 y=8></td>
-                            <td class="tg-ltxa fill" x=7 y=8></td>
-                            <td class="tg-ltxa fill" x=8 y=8></td>
-                            <td class="tg-ltxa fill" x=9 y=8></td>
+                            <td class="tg-ltxa fill" hovered=true x=7 y=8></td>
+                            <td class="tg-ltxa fill" hovered=true x=8 y=8></td>
+                            <td class="tg-ltxa fill" hovered=true x=9 y=8></td>
                             <td class="tg-ltxa" x=10 y=8></td>
                         </tr>
                         <tr>
                             <th class="label">I</th>
                             <td class="tg-ltxa" x=1 y=9></td>
                             <td class="tg-ltxa" x=2 y=9></td>
-                            <td class="tg-ltxa fill" x=3 y=9></td>
-                            <td class="tg-ltxa fill" x=4 y=9></td>
-                            <td class="tg-ltxa fill" x=5 y=9></td>
+                            <td class="tg-ltxa fill" hovered=true x=3 y=9></td>
+                            <td class="tg-ltxa fill" hovered=true x=4 y=9></td>
+                            <td class="tg-ltxa fill" hovered=true x=5 y=9></td>
                             <td class="tg-ltxa" x=6 y=9></td>
                             <td class="tg-ltxa" x=7 y=9></td>
                             <td class="tg-ltxa" x=8 y=9></td>
@@ -154,48 +155,48 @@
                             <td class="tg-ltxa" x=4 y=10></td>
                             <td class="tg-ltxa" x=5 y=10></td>
                             <td class="tg-ltxa" x=6 y=10></td>
-                            <td class="tg-ltxa fill" x=7 y=10></td>
+                            <td class="tg-ltxa fill" hovered=true x=7 y=10></td>
                             <td class="tg-ltxa" x=8 y=10></td>
                             <td class="tg-ltxa" x=9 y=10></td>
                             <td class="tg-ltxa" x=10 y=10></td>
                         </tr>
                     </table>
-                    <div id='shipsOwn'>
-                        <table class='ships'>
+                    <div class='ships'>
+                        <table id='shipsOwn'>
                             <tr>
-                                <td class='ship'></td>
-                                <td class='ship'></td>
-                                <td class='ship'></td>
-                                <td class='ship'></td>
+                                <td class='ship' long=4></td>
+                                <td class='ship' long=4></td>
+                                <td class='ship' long=4></td>
+                                <td class='ship' long=4></td>
                                 <td class='break'></td>
-                                <td class='ship'></td>
-                                <td class='ship'></td>
-                                <td class='ship'></td>
+                                <td class='ship' long=3></td>
+                                <td class='ship' long=3></td>
+                                <td class='ship' long=3></td>
                                 <td class='break'></td>
-                                <td class='ship'></td>
-                                <td class='ship'></td>
-                                <td class='ship'></td>
+                                <td class='ship' long=3></td>
+                                <td class='ship' long=3></td>
+                                <td class='ship' long=3></td>
                                 <td class='break'></td>
-                                <td class='ship'></td>
-                                <td class='ship'></td>
+                                <td class='ship' long=2></td>
+                                <td class='ship' long=2></td>
                                 <td class='break'></td>
-                                <td class='ship'></td>
-                                <td class='ship'></td>
+                                <td class='ship' long=2></td>
+                                <td class='ship' long=2></td>
                                 <td class='break'></td>
-                                <td class='ship'></td>
-                                <td class='ship'></td>
+                                <td class='ship' long=2></td>
+                                <td class='ship' long=2></td>
                                 <td class='break'></td>
-                                <td class='ship'></td>
+                                <td class='ship' long=1></td>
                                 <td class='break'></td>
-                                <td class='ship'></td>
+                                <td class='ship' long=1></td>
                                 <td class='break'></td>
-                                <td class='ship'></td>
+                                <td class='ship' long=1></td>
                                 <td class='break'></td>
-                                <td class='ship'></td>
+                                <td class='ship' long=1></td>
                             </tr>
                         </table>
                     </div>
-                </div> -->
+                </div>
                 <div id='battlefieldRival'>
                     <span>Rival's field</span>
                     <table class="tg" id='rivalsTable'>
