@@ -1,6 +1,7 @@
 let table = document.getElementById("ownTable");
 let rivalTable = document.getElementById("rivalsTable");
 let ship = {};
+let ships = [4, 3, 3, 2, 2, 2, 1, 1, 1, 1];
 
 if (table != null) {
     for (var i = 0; i < table.rows.length; i++) {
@@ -28,8 +29,15 @@ if (rivalTable != null) {
                 this.style.backgroundColor = 'green';
             }
             this.style.cursor = 'unset';
+            checkIsWin();
         };
     }
+}
+
+function checkIsWin() {
+    if(ships.length > 0) return false;
+    console.log('You win!!!');
+    return true;
 }
 
 //hit neighbour cells 
@@ -59,6 +67,11 @@ function checkIsWholeShip(x, y){
         for (var i = 0; i < ship.length; i++) {
             getNeighbours(ship[i].x, ship[i].y)
         }
+        var index = ships.indexOf(ship.length);
+        if (index > -1) {
+            ships.splice(index, 1);
+        }
+        console.log(ships)
     }
 }
 
