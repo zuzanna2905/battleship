@@ -34,6 +34,7 @@ if (rivalTable != null) {
     }
 }
 
+//check win condition
 function checkIsWin() {
     if(ships.length > 0) return false;
     console.log('You win!!!');
@@ -41,6 +42,7 @@ function checkIsWin() {
     return true;
 }
 
+//color not destroyed cells
 function notHittens(){
     for (var i = 1; i < rivalTable.rows.length; i++) {
         for (var j = 1; j < rivalTable.rows[i].cells.length; j++)
@@ -85,6 +87,7 @@ function checkIsWholeShip(x, y){
     }
 }
 
+//choose destroyed ship
 function getShip() {
     for (let i = 0; i < shipsRival.rows[0].cells.length; i++){
         if(parseInt(shipsRival.rows[0].cells[i].getAttribute('long')) === ship.length && ! shipsRival.rows[0].cells[i].hasAttribute('colored')){
@@ -94,6 +97,7 @@ function getShip() {
     }
 }
 
+//color destroyed ships
 function colorShip(x, y, long){
     for(let i = 0; i < long; i++){
         shipsRival.rows[x].cells[y+i].style.backgroundColor = 'green';
