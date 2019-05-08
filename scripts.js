@@ -11,6 +11,7 @@ let leftShipsRival = [4, 3, 3, 2, 2, 2, 1, 1, 1, 1];
 let shipOwn = {};
 let leftShipsOwn = [4, 3, 3, 2, 2, 2, 1, 1, 1, 1];
 let newShip = {};
+let lastMove = {};
 
 initialOwn();
 initialRival();
@@ -18,18 +19,9 @@ initialRival();
 function initialOwn () {
     if (ownTable != null) {
         for (var i = 0; i < ownTable.rows.length; i++) {
-            for (var j = 0; j < ownTable.rows[i].cells.length; j++)
-            ownTable.rows[i].cells[j].onclick = function () {
-                this.style.backgroundColor = 'grey';
-                if(isHidden(this))  {  
-                    shipOwn = [];
-                    this.setAttribute("hitten", "true");
-                    hitOthers(this, ownTable, shipOwn, shipsOwn, leftShipsOwn);
-                    this.style.backgroundColor = 'red';
-                }
-                this.style.cursor = 'unset';
-                checkIsWin(leftShipsOwn, ownTable);
-            };
+            for (var j = 0; j < ownTable.rows[i].cells.length; j++){
+            //ownTable.rows[i].cells[j].onclick = hitRival(ownTable.rows[i].cells[j]);
+            }
         }
     }
 }
@@ -49,13 +41,37 @@ function initialRival () {
                 }
                 this.style.cursor = 'unset';
                 checkIsWin(leftShipsRival, rivalTable);
-                //dodaj opoznienie i wykonuj ruch przeciwnika
+                computerMove();
             };
             removeHovered(rivalTable.rows[i].cells[j]);
             }
         }
         setShips(rivalTable);
     }
+}
+
+function computerMove(){
+    let done = false;
+    do {
+        let x = Math.floor(Math.random() * 10) + 1;
+        let y = Math.floor(Math.random() * 10) + 1;
+        if(!ownTable.rows[y].cells[x].hasAttribute('hitten')){
+            hitRival(ownTable.rows[y].cells[x]);
+            done = true;
+        }
+    } while(!done)
+}
+
+function hitRival(cell){
+    cell.style.backgroundColor = 'grey';
+    if(isHidden(cell))  {  
+        shipOwn = [];
+        cell.setAttribute("hitten", "true");
+        hitOthers(cell, ownTable, shipOwn, shipsOwn, leftShipsOwn);
+        cell.style.backgroundColor = 'red';
+    }
+    cell.style.cursor = 'unset';
+    checkIsWin(leftShipsOwn, ownTable);
 }
 
 //remove default ships
