@@ -79,7 +79,6 @@ function createNewShip(table, long){
         newShip = [];
         let x = Math.floor(Math.random() * 10) + 1;
         let y = Math.floor(Math.random() * 10) + 1;
-        console.log(x,y)
         if(!table.rows[y].cells[x].hasAttribute('hovered') && !table.rows[y].cells[x].hasAttribute('neighbour')){
             pushCell(x,y, newShip);
             isCreated = true;
@@ -107,7 +106,7 @@ function createLonger(table, x, y, long){
 
 function createOnRight(table, x, y, long){
     for(let i = 1; i < long; i++){
-        if(x < 10 && !table.rows[y].cells[x+i].hasAttribute('hovered') && !table.rows[y].cells[x+i].hasAttribute('neighbour')){
+        if(x+i < 10 && !table.rows[y].cells[x+i].hasAttribute('hovered') && !table.rows[y].cells[x+i].hasAttribute('neighbour')){
             pushCell(x+i, y, newShip);
         }else{
             return false;
@@ -118,7 +117,7 @@ function createOnRight(table, x, y, long){
 
 function createOnLeft(table, x, y, long){
     for(let i = 1; i < long; i++){
-        if(x > 1 && !table.rows[y].cells[x-i].hasAttribute('hovered') && !table.rows[y].cells[x-i].hasAttribute('neighbour')){
+        if(x-i > 1 && !table.rows[y].cells[x-i].hasAttribute('hovered') && !table.rows[y].cells[x-i].hasAttribute('neighbour')){
             pushCell(x-i, y, newShip);
         }else{
             return false;
@@ -129,7 +128,7 @@ function createOnLeft(table, x, y, long){
 
 function createOnUp(table, x, y, long){
     for(let i = 1; i < long; i++){
-        if(y > 1 && !table.rows[y-i].cells[x].hasAttribute('hovered') && !table.rows[y-i].cells[x].hasAttribute('neighbour')){
+        if(y-i > 1 && !table.rows[y-i].cells[x].hasAttribute('hovered') && !table.rows[y-i].cells[x].hasAttribute('neighbour')){
             pushCell(x, y-i, newShip);
         }else{
             return false;
@@ -140,7 +139,7 @@ function createOnUp(table, x, y, long){
 
 function createOnDown(table, x, y, long){
     for(let i = 1; i < long; i++){
-        if(y < 10 && !table.rows[y+i].cells[x].hasAttribute('hovered') && !table.rows[y+i].cells[x].hasAttribute('neighbour')){
+        if(y+i < 10 && !table.rows[y+i].cells[x].hasAttribute('hovered') && !table.rows[y+i].cells[x].hasAttribute('neighbour')){
             pushCell(x, y+i, newShip);
         }else{
             return false;
@@ -152,10 +151,12 @@ function createOnDown(table, x, y, long){
 function setNewShip(table){
     for (let i = 0; i < newShip.length; i++){
         table.rows[newShip[i].y].cells[newShip[i].x].setAttribute('hovered', 'true');
+        table.rows[newShip[i].y].cells[newShip[i].x].style.backgroundColor = 'pink';
     }
 }
 
 function setNeighbours(table){
+    //sides of ship
     for (let i = 0; i < newShip.length; i++){
         if(newShip[i].x > 1 && !table.rows[newShip[i].y].cells[newShip[i].x-1].hasAttribute('hovered')){
             table.rows[newShip[i].y].cells[newShip[i].x-1].setAttribute('neighbour', 'true');
@@ -169,6 +170,32 @@ function setNeighbours(table){
         if(newShip[i].y < 10 && !table.rows[newShip[i].y+1].cells[newShip[i].x].hasAttribute('hovered')){
             table.rows[newShip[i].y+1].cells[newShip[i].x].setAttribute('neighbour', 'true');
         }
+    }
+    //front of ship
+    if(newShip[0].x > 1 && newShip[0].y > 1){
+        table.rows[newShip[0].y-1].cells[newShip[0].x-1].setAttribute('neighbour', 'true');
+    }    
+    if(newShip[0].x  > 1 && newShip[0].y  < 10){
+        table.rows[newShip[0].y+1].cells[newShip[0].x-1].setAttribute('neighbour', 'true');
+    }
+    if(newShip[0].x  < 10 && newShip[0].y  > 1){
+        table.rows[newShip[0].y-1].cells[newShip[0].x+1].setAttribute('neighbour', 'true');
+    }
+    if(newShip[0].x  < 10 && newShip[0].y  < 10) {
+        table.rows[newShip[0].y+1].cells[newShip[0].x+1].setAttribute('neighbour', 'true');
+    }
+    //end of ship - zamienić to na funkcje
+    if(newShip[newShip.length-1].x > 1 && newShip[newShip.length-1].y > 1){
+        table.rows[newShip[newShip.length-1].y-1].cells[newShip[newShip.length-1].x-1].setAttribute('neighbour', 'true');
+    }    
+    if(newShip[newShip.length-1].x  > 1 && newShip[newShip.length-1].y  < 10){
+        table.rows[newShip[newShip.length-1].y+1].cells[newShip[newShip.length-1].x-1].setAttribute('neighbour', 'true');
+    }
+    if(newShip[newShip.length-1].x  < 10 && newShip[newShip.length-1].y  > 1){
+        table.rows[newShip[newShip.length-1].y-1].cells[newShip[newShip.length-1].x+1].setAttribute('neighbour', 'true');
+    }
+    if(newShip[newShip.length-1].x  < 10 && newShip[newShip.length-1].y  < 10) {
+        table.rows[newShip[newShip.length-1].y+1].cells[newShip[newShip.length-1].x+1].setAttribute('neighbour', 'true');
     }
 }
 
