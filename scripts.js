@@ -10,6 +10,7 @@ let shipRival = {};
 let leftShipsRival = [4, 3, 3, 2, 2, 2, 1, 1, 1, 1];
 let shipOwn = {};
 let leftShipsOwn = [4, 3, 3, 2, 2, 2, 1, 1, 1, 1];
+let newShip = {};
 
 initialOwn();
 initialRival();
@@ -37,7 +38,7 @@ function initialOwn () {
 function initialRival () {
     if (rivalTable != null) {
         for (var i = 0; i < rivalTable.rows.length; i++) {
-            for (var j = 0; j < rivalTable.rows[i].cells.length; j++)
+            for (var j = 0; j < rivalTable.rows[i].cells.length; j++){
             rivalTable.rows[i].cells[j].onclick = function () {
                 this.style.backgroundColor = 'grey';
                 if(isHidden(this))  {  
@@ -50,6 +51,123 @@ function initialRival () {
                 checkIsWin(leftShipsRival, rivalTable);
                 //dodaj opoznienie i wykonuj ruch przeciwnika
             };
+            removeHovered(rivalTable.rows[i].cells[j]);
+            }
+        }
+        setShips(rivalTable);
+    }
+}
+
+//remove default ships
+function removeHovered (cell) {
+    cell.removeAttribute('hovered')
+}
+
+//create new ships on field
+function setShips(table) {
+    const ships = [1, 1, 1, 1, 2, 2, 2, 3, 3, 4];
+    for (let i = 0; i < ships.length; i++){
+        createNewShip(table, ships[i]);
+        setNewShip(table);
+        setNeighbours(table);
+    }
+}
+
+function createNewShip(table, long){
+    let isCreated = false;
+    do {
+        newShip = [];
+        let x = Math.floor(Math.random() * 10) + 1;
+        let y = Math.floor(Math.random() * 10) + 1;
+        console.log(x,y)
+        if(!table.rows[y].cells[x].hasAttribute('hovered') && !table.rows[y].cells[x].hasAttribute('neighbour')){
+            pushCell(x,y, newShip);
+            isCreated = true;
+            if(long > 1){
+                isCreated = createLonger(table, x, y, long);
+            }
+        }
+    } while(!isCreated);
+}
+
+function createLonger(table, x, y, long){
+    let direction = Math.floor(Math.random() * 4) + 1;
+    switch (direction){
+        case 1:
+            return createOnRight(table, x, y, long);
+        case 2:
+            return createOnLeft(table, x, y, long);
+        case 3:
+            return createOnUp(table, x, y, long);
+        case 4:
+            return createOnDown(table, x, y, long);
+        default: return false;
+    }
+}
+
+function createOnRight(table, x, y, long){
+    for(let i = 1; i < long; i++){
+        if(x < 10 && !table.rows[y].cells[x+i].hasAttribute('hovered') && !table.rows[y].cells[x+i].hasAttribute('neighbour')){
+            pushCell(x+i, y, newShip);
+        }else{
+            return false;
+        }
+    }
+    return true;
+}
+
+function createOnLeft(table, x, y, long){
+    for(let i = 1; i < long; i++){
+        if(x > 1 && !table.rows[y].cells[x-i].hasAttribute('hovered') && !table.rows[y].cells[x-i].hasAttribute('neighbour')){
+            pushCell(x-i, y, newShip);
+        }else{
+            return false;
+        }
+    }
+    return true;
+}
+
+function createOnUp(table, x, y, long){
+    for(let i = 1; i < long; i++){
+        if(y > 1 && !table.rows[y-i].cells[x].hasAttribute('hovered') && !table.rows[y-i].cells[x].hasAttribute('neighbour')){
+            pushCell(x, y-i, newShip);
+        }else{
+            return false;
+        }
+    }
+    return true;
+}
+
+function createOnDown(table, x, y, long){
+    for(let i = 1; i < long; i++){
+        if(y < 10 && !table.rows[y+i].cells[x].hasAttribute('hovered') && !table.rows[y+i].cells[x].hasAttribute('neighbour')){
+            pushCell(x, y+i, newShip);
+        }else{
+            return false;
+        }
+    }
+    return true;
+}
+
+function setNewShip(table){
+    for (let i = 0; i < newShip.length; i++){
+        table.rows[newShip[i].y].cells[newShip[i].x].setAttribute('hovered', 'true');
+    }
+}
+
+function setNeighbours(table){
+    for (let i = 0; i < newShip.length; i++){
+        if(newShip[i].x > 1 && !table.rows[newShip[i].y].cells[newShip[i].x-1].hasAttribute('hovered')){
+            table.rows[newShip[i].y].cells[newShip[i].x-1].setAttribute('neighbour', 'true');
+        }
+        if(newShip[i].x < 10 && !table.rows[newShip[i].y].cells[newShip[i].x+1].hasAttribute('hovered')){
+            table.rows[newShip[i].y].cells[newShip[i].x+1].setAttribute('neighbour', 'true');
+        }
+        if(newShip[i].y > 1 && !table.rows[newShip[i].y-1].cells[newShip[i].x].hasAttribute('hovered')){
+            table.rows[newShip[i].y-1].cells[newShip[i].x].setAttribute('neighbour', 'true');
+        }
+        if(newShip[i].y < 10 && !table.rows[newShip[i].y+1].cells[newShip[i].x].hasAttribute('hovered')){
+            table.rows[newShip[i].y+1].cells[newShip[i].x].setAttribute('neighbour', 'true');
         }
     }
 }
