@@ -7,6 +7,7 @@ let shipsOwn = document.getElementById("shipsOwn");
 let shipsRivalDom = shipsRival.cloneNode(true);
 let shipsOwnDom = shipsOwn.cloneNode(true);
 let shipRival = {};
+let leftShips = [4, 3, 3, 2, 2, 2, 1, 1, 1, 1];
 let leftShipsRival = [4, 3, 3, 2, 2, 2, 1, 1, 1, 1];
 let shipOwn = {};
 let leftShipsOwn = [4, 3, 3, 2, 2, 2, 1, 1, 1, 1];
@@ -29,8 +30,8 @@ function initialOwn () {
 //add on click action on rival cells
 function initialRival () {
     if (rivalTable != null) {
-        for (var i = 0; i < rivalTable.rows.length; i++) {
-            for (var j = 0; j < rivalTable.rows[i].cells.length; j++){
+        for (var i = 1; i < rivalTable.rows.length; i++) {
+            for (var j = 1; j < rivalTable.rows[i].cells.length; j++){
             rivalTable.rows[i].cells[j].onclick = function () {
                 this.style.backgroundColor = 'grey';
                 if(isHidden(this))  {  
@@ -40,7 +41,9 @@ function initialRival () {
                     this.style.backgroundColor = 'green';
                 }
                 this.style.cursor = 'unset';
+                this.onclick = null;
                 checkIsWin(leftShipsRival, rivalTable);
+                //setTimeout(computerMove, 500);
                 computerMove();
             };
             removeHovered(rivalTable.rows[i].cells[j]);
@@ -122,7 +125,7 @@ function createLonger(table, x, y, long){
 
 function createOnRight(table, x, y, long){
     for(let i = 1; i < long; i++){
-        if(x+i < 10 && !table.rows[y].cells[x+i].hasAttribute('hovered') && !table.rows[y].cells[x+i].hasAttribute('neighbour')){
+        if(x+i <= 10 && !table.rows[y].cells[x+i].hasAttribute('hovered') && !table.rows[y].cells[x+i].hasAttribute('neighbour')){
             pushCell(x+i, y, newShip);
         }else{
             return false;
@@ -133,7 +136,7 @@ function createOnRight(table, x, y, long){
 
 function createOnLeft(table, x, y, long){
     for(let i = 1; i < long; i++){
-        if(x-i > 1 && !table.rows[y].cells[x-i].hasAttribute('hovered') && !table.rows[y].cells[x-i].hasAttribute('neighbour')){
+        if(x-i >= 1 && !table.rows[y].cells[x-i].hasAttribute('hovered') && !table.rows[y].cells[x-i].hasAttribute('neighbour')){
             pushCell(x-i, y, newShip);
         }else{
             return false;
@@ -144,7 +147,7 @@ function createOnLeft(table, x, y, long){
 
 function createOnUp(table, x, y, long){
     for(let i = 1; i < long; i++){
-        if(y-i > 1 && !table.rows[y-i].cells[x].hasAttribute('hovered') && !table.rows[y-i].cells[x].hasAttribute('neighbour')){
+        if(y-i >= 1 && !table.rows[y-i].cells[x].hasAttribute('hovered') && !table.rows[y-i].cells[x].hasAttribute('neighbour')){
             pushCell(x, y-i, newShip);
         }else{
             return false;
@@ -155,7 +158,7 @@ function createOnUp(table, x, y, long){
 
 function createOnDown(table, x, y, long){
     for(let i = 1; i < long; i++){
-        if(y+i < 10 && !table.rows[y+i].cells[x].hasAttribute('hovered') && !table.rows[y+i].cells[x].hasAttribute('neighbour')){
+        if(y+i <= 10 && !table.rows[y+i].cells[x].hasAttribute('hovered') && !table.rows[y+i].cells[x].hasAttribute('neighbour')){
             pushCell(x, y+i, newShip);
         }else{
             return false;
@@ -239,6 +242,8 @@ function resetGame(){
     rivalTable.innerHTML = rivalTableDom.innerHTML;
     shipsRival.innerHTML = shipsRivalDom.innerHTML;
     shipsOwn.innerHTML = shipsOwnDom.innerHTML;
+    leftShipsRival = leftShips;
+    leftShipsOwn = leftShips;
     initialOwn();
     initialRival();
 }
@@ -329,7 +334,7 @@ function checkIsLonger(x,y, table, ship){
 
 function checkLeft(x,y, table, ship){
     if(ship.includes({x,y})) return;
-    if(x > 1 && isShipCell(table.rows[y].cells[x])) {    
+    if(x >= 1 && isShipCell(table.rows[y].cells[x])) {    
         pushCell(x, y, ship);
         checkLeft(x-1, y, table, ship);
     } 
@@ -337,7 +342,7 @@ function checkLeft(x,y, table, ship){
 
 function checkRight(x,y, table, ship){
     if(ship.includes({x,y})) return;
-    if(x < 10 && isShipCell(table.rows[y].cells[x])) {    
+    if(x <= 10 && isShipCell(table.rows[y].cells[x])) {    
         pushCell(x, y, ship);
         checkRight(x+1, y, table, ship);
     } 
@@ -345,7 +350,7 @@ function checkRight(x,y, table, ship){
 
 function checkUp(x,y, table, ship){
     if(ship.includes({x,y})) return;
-    if(y > 1 && isShipCell(table.rows[y].cells[x])) {
+    if(y >= 1 && isShipCell(table.rows[y].cells[x])) {
         pushCell(x, y, ship);
         checkUp(x,y-1, table, ship)
     }
@@ -353,7 +358,7 @@ function checkUp(x,y, table, ship){
 
 function checkDown(x,y, table, ship){
     if(ship.includes({x,y})) return;
-    if(y < 10 && isShipCell(table.rows[y].cells[x])) {
+    if(y <= 10 && isShipCell(table.rows[y].cells[x])) {
         pushCell(x, y, ship);
         checkDown(x,y+1, table, ship)
     }
