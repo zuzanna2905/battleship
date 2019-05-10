@@ -6,13 +6,16 @@ let shipsRival = document.getElementById("shipsRival");
 let shipsOwn = document.getElementById("shipsOwn");
 let shipsRivalDom = shipsRival.cloneNode(true);
 let shipsOwnDom = shipsOwn.cloneNode(true);
-let shipRival = {};
+let shipRival = [];
 let leftShips = [4, 3, 3, 2, 2, 2, 1, 1, 1, 1];
 let leftShipsRival = [4, 3, 3, 2, 2, 2, 1, 1, 1, 1];
-let shipOwn = {};
+let shipOwn = [];
 let leftShipsOwn = [4, 3, 3, 2, 2, 2, 1, 1, 1, 1];
-let newShip = {};
-let lastMove = {};
+let newShip = [];
+let lastMove = [];
+let isLonger = false;
+let attackedShip = [];
+let neighbours = [];
 
 initialOwn();
 initialRival();
@@ -21,7 +24,7 @@ function initialOwn () {
     if (ownTable != null) {
         for (var i = 0; i < ownTable.rows.length; i++) {
             for (var j = 0; j < ownTable.rows[i].cells.length; j++){
-            //ownTable.rows[i].cells[j].onclick = hitRival(ownTable.rows[i].cells[j]);
+
             }
         }
     }
@@ -53,18 +56,41 @@ function initialRival () {
     }
 }
 
+//computer hit choose
 function computerMove(){
     let done = false;
     do {
-        let x = Math.floor(Math.random() * 10) + 1;
-        let y = Math.floor(Math.random() * 10) + 1;
-        if(!ownTable.rows[y].cells[x].hasAttribute('hitten')){
-            hitRival(ownTable.rows[y].cells[x]);
-            done = true;
+        if(lastMove.length > 0){
+            checkIsLonger(lastMove[lastMove.length-1].x, lastMove[lastMove.length-1].y, ownTable, attackedShip);
+        }
+        if(!isAll(ownTable, attackedShip) && lastMove.length > 0){
+            do{
+                console.log('n', neighbours)
+                neighbours = [];
+                const x = lastMove[0].x;
+                const y = lastMove[0].y;
+                if(!allNeighboursHitten(ownTable, x,y)){
+                    hitNeighbour(x, y);
+                    done = true;
+                }else{
+                    let index = lastMove.findIndex({x, y});
+                    console.log('i',index)
+                    if (index !== -1) lastMove.splice(index, 1);
+                }
+            }while(!done)
+        }else{
+            lastMove = [];
+            let x = Math.floor(Math.random() * 10) + 1;
+            let y = Math.floor(Math.random() * 10) + 1;
+            if(!ownTable.rows[y].cells[x].hasAttribute('hitten')){
+                hitRival(ownTable.rows[y].cells[x]);
+                done = true;
+            }
         }
     } while(!done)
 }
 
+//hit cell by computer
 function hitRival(cell){
     cell.style.backgroundColor = 'grey';
     if(isHidden(cell))  {  
@@ -72,9 +98,49 @@ function hitRival(cell){
         cell.setAttribute("hitten", "true");
         hitOthers(cell, ownTable, shipOwn, shipsOwn, leftShipsOwn);
         cell.style.backgroundColor = 'red';
+        let x = parseInt(getX(cell));
+        let y = parseInt(getY(cell));
+        lastMove.push({x,y});
     }
     cell.style.cursor = 'unset';
     checkIsWin(leftShipsOwn, ownTable);
+}
+
+//find rest of ship
+function hitNeighbour(x, y){
+    let isDone = false;
+    do{   
+        console.log('n2',neighbours)
+        let direction = neighbours[Math.floor(Math.random()*neighbours.length)];
+        console.log('d',direction, x, y)
+        switch (direction){
+            case 1:
+                //right
+                if(x < 10 && !ownTable.rows[y].cells[x+1].hasAttribute('hitten')){
+                    hitRival(ownTable.rows[y].cells[x+1]);
+                    isDone = true;
+                }
+            case 2:
+                //left
+                if(x > 1 && !ownTable.rows[y].cells[x-1].hasAttribute('hitten')){
+                    hitRival(ownTable.rows[y].cells[x-1]);
+                    isDone = true;
+                }
+            case 3:
+                //down
+                if(y < 10 && !ownTable.rows[y+1].cells[x].hasAttribute('hitten')){
+                    hitRival(ownTable.rows[y+1].cells[x]);
+                    isDone = true;
+                }
+            case 4:
+                //up
+                if(y > 1 && !ownTable.rows[y-1].cells[x].hasAttribute('hitten')){
+                    hitRival(ownTable.rows[y-1].cells[x]);
+                    isDone = true;
+                }
+            default: isDone = false;
+        }
+    }while(isDone)
 }
 
 //remove default ships
@@ -300,6 +366,16 @@ function colorShip(x, y, long, ships){
         ships.rows[x].cells[y+i].style.backgroundColor = 'green';
         ships.rows[x].cells[y+i].setAttribute("colored", "true");
     }
+}
+
+function allNeighboursHitten(table, x, y){
+    neighbours = [];
+    if(x < 10 && !table.rows[y].cells[x+1].hasAttribute('hitten')) neighbours.push(1);   
+    if(x > 1 && !table.rows[y].cells[x-1].hasAttribute('hitten')) neighbours.push(2);   
+    if(y < 10 && !table.rows[y+1].cells[x].hasAttribute('hitten')) neighbours.push(3);   
+    if(y > 1 && !table.rows[y-1].cells[x].hasAttribute('hitten')) neighbours.push(4);   
+    if(neighbours.length>0) return false;
+    return true;
 }
 
 //paint neighbours 
