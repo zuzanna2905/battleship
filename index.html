@@ -6,15 +6,18 @@
         <meta name="description" content="battle ship game">
         <meta name="author" content="Zuzanna Pusiewicz">
         <link rel="stylesheet" href="./styles.css">
+        <script type="text/javascript" src="./redips-drag-min.js"></script>
     </head>
-    <body>
+    <body onload="REDIPS.drag.init()">
         <div id='container'>
             <div id='hello'>
                 <span></span>
                 <button onclick="resetGame()">RESET GAME</button>
+                <button onclick="start()">START GAME</button>
             </div>
             <div id='battle'>
                 <div id='battlefieldOwn'>
+                    <div id="redips-drag">
                     <span>Your field</span>
                     <table class="tg" id="ownTable">
                         <tr>
@@ -36,7 +39,7 @@
                             <td class="tg-ltxa" x=2 y=1></td>
                             <td class="tg-ltxa" x=3 y=1></td>
                             <td class="tg-ltxa" x=4 y=1></td>
-                            <td class="tg-ltxa fill" hovered=true x=5 y=1></td>
+                            <td class="tg-ltxa fill" hovered=true x=5 y=1> <div class="redips-drag"></div> </td>
                             <td class="tg-ltxa fill" hovered=true x=6 y=1></td>
                             <td class="tg-ltxa fill" hovered=true x=7 y=1></td>
                             <td class="tg-ltxa fill" hovered=true x=8 y=1></td>
@@ -161,6 +164,7 @@
                             <td class="tg-ltxa" x=10 y=10></td>
                         </tr>
                     </table>
+                    </div>
                     <div class='ships'>
                         <table id='shipsOwn'>
                             <tr>
@@ -198,6 +202,7 @@
                     </div>
                 </div>
                 <div id='battlefieldRival'>
+                    <div id="redips-drag">
                     <span>Rival's field</span>
                     <table class="tg" id='rivalsTable'>
                             <tr>
@@ -344,6 +349,7 @@
                                 <td class="tg-ltxa" x=10 y=10></td>
                             </tr>
                     </table>
+                    </div>
                     <div class='ships'>
                         <table id='shipsRival'>
                             <tr>
@@ -382,6 +388,6 @@
                 </div>
             </div>
         </div>
-        <script src="./scripts.js"></script>
+        <script type="text/javascript" src="./scripts.js"></script>
     </body>
 </html>

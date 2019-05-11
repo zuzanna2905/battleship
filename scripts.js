@@ -7,7 +7,6 @@ let shipsOwn = document.getElementById("shipsOwn");
 let shipsRivalDom = shipsRival.cloneNode(true);
 let shipsOwnDom = shipsOwn.cloneNode(true);
 let shipRival = [];
-let leftShips = [4, 3, 3, 2, 2, 2, 1, 1, 1, 1];
 let leftShipsRival = [4, 3, 3, 2, 2, 2, 1, 1, 1, 1];
 let shipOwn = [];
 let leftShipsOwn = [4, 3, 3, 2, 2, 2, 1, 1, 1, 1];
@@ -16,15 +15,24 @@ let lastMove = [];
 let isLonger = false;
 let attackedShip = [];
 let neighbours = [];
+let newPlace = [];
 
 initialOwn();
 initialRival();
+
+function start(){
+    
+}
 
 function initialOwn () {
     if (ownTable != null) {
         for (var i = 0; i < ownTable.rows.length; i++) {
             for (var j = 0; j < ownTable.rows[i].cells.length; j++){
-
+                ownTable.rows[i].cells[j].onclick = function () {
+                    if(isHidden(this)){
+                        
+                    }
+                }
             }
         }
     }
@@ -306,9 +314,12 @@ function resetGame(){
     rivalTable.innerHTML = rivalTableDom.innerHTML;
     shipsRival.innerHTML = shipsRivalDom.innerHTML;
     shipsOwn.innerHTML = shipsOwnDom.innerHTML;
-    leftShipsRival = leftShips;
-    leftShipsOwn = leftShips;
+    leftShipsRival = [4, 3, 3, 2, 2, 2, 1, 1, 1, 1];;
+    leftShipsOwn = [4, 3, 3, 2, 2, 2, 1, 1, 1, 1];;
     lastMove = [];
+    attackedShip = [];
+    shipRival = [];
+    shipOwn = [];
     initialOwn();
     initialRival();
 }

@@ -24,7 +24,6 @@ body {
 #battlefieldRival {
     justify-items: center;
     margin: 10px auto;
-
 }
 
 .ships {
@@ -58,9 +57,10 @@ body {
 }
 
 .tg td{
+    height: 20px;
+    width: 20px;
     font-family:Arial, sans-serif;
-    font-size:14px;
-    padding:20px;
+    padding:0px;
     border-style:solid;
     border-width:1px;
     overflow:hidden;
@@ -76,7 +76,7 @@ body {
     font-family:Arial, sans-serif;
     font-size:14px;
     font-weight:normal;
-    padding:10px;
+    padding:15px 15px;
     border-width:1px;
     overflow:hidden;
     word-break:normal;
@@ -86,7 +86,9 @@ body {
 .tg .tg-ltxa{
     background-color:white;
     text-align:left;
-    vertical-align:top
+    vertical-align:top;
+    align-items: stretch;
+    justify-items: stretch;
 }
 
 .tg .tg-90e1{
@@ -98,4 +100,10 @@ body {
 
 .tg .fill {
     background-color: lightcoral;
+}
+
+.redips-drag{
+    background-color:pink;    
+    padding: 25px 15px;
+    border: 0px;
 }
