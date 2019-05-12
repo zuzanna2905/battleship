@@ -1,6 +1,6 @@
-let ownTable = document.getElementById("ownTable");
+let ownTable = null;
 let rivalTable = document.getElementById("rivalsTable");
-let ownTableDom = ownTable.cloneNode(true);
+let ownTableDom = null;
 let rivalTableDom = rivalTable.cloneNode(true);
 let shipsRival = document.getElementById("shipsRival");
 let shipsOwn = document.getElementById("shipsOwn");
@@ -16,12 +16,49 @@ let isLonger = false;
 let attackedShip = [];
 let neighbours = [];
 let newPlace = [];
+let initialShips = [
+    [0,0,0,0,1,1,1,1,0,0],
+    [0,1,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,1,0,0,0,0],
+    [1,0,0,0,0,1,0,0,0,1],
+    [0,0,0,1,0,0,0,0,0,0],
+    [0,0,0,1,0,0,1,1,0,0],
+    [0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,1,1,1,0],
+    [0,0,1,1,1,0,0,0,0,0],
+    [0,0,0,0,0,0,1,0,0,0]];
 
-initialOwn();
-initialRival();
+generateTable('Your','ownTable', 10);
 
 function start(){
-    
+    initialOwn();
+    initialRival();
+}
+
+function generateTable(owner, id, size) {
+    let newTable = `<span>${owner} field</span><table class="tg" id=${id}><tr><th class="label"></th>`;
+    //labels
+    for(let i = 1; i <= size; i++){  
+        newTable += `<th class="label">${i}</th>`
+    }
+    newTable += '</tr>';
+    //cells
+    for(let i = 0; i < size; i++){
+        newTable += `<tr><th class="label">${String.fromCharCode('A'.charCodeAt() + i)}</th>`
+        for(let j = 0; j< size; j++){
+            if(initialShips[i][j] === 1){
+                newTable += `<td class="tg-ltxa" hovered=true x=${j+1} y=${i+1}> <div class="redips-drag"></div></td>`
+            }else {
+                newTable += `<td class="tg-ltxa" x=${j+1} y=${i+1}></td>`
+            }
+        }
+        newTable += `</tr>`
+    }
+    newTable += '</table>'
+
+    document.getElementById('redips-drag').innerHTML = newTable;
+    ownTable = document.getElementById("ownTable");
+    ownTableDom = ownTable.cloneNode(true);;
 }
 
 function initialOwn () {
@@ -102,6 +139,8 @@ function hitRival(cell){
         shipOwn = [];
         hitOthers(cell, ownTable, shipOwn, shipsOwn, leftShipsOwn);
         cell.style.backgroundColor = 'red';
+        let div = cell.getElementsByTagName("div");
+        div[0].style.backgroundColor = 'red';
         let x = parseInt(getX(cell));
         let y = parseInt(getY(cell));
         lastMove.push({x,y});

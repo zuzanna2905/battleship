@@ -73,10 +73,12 @@ body {
 }
 
 .tg th{ 
+    height: 20px;
+    width: 20px;
     font-family:Arial, sans-serif;
     font-size:14px;
     font-weight:normal;
-    padding:15px 15px;
+    padding: 10px;
     border-width:1px;
     overflow:hidden;
     word-break:normal;
@@ -103,7 +105,9 @@ body {
 }
 
 .redips-drag{
+    align-self: center;
     background-color:pink;    
-    padding: 25px 15px;
-    border: 0px;
+    height: 37px;
+    width: 37px;
+    border: 1px solid white;
 }
