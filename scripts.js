@@ -1,7 +1,7 @@
 let ownTable = null;
-let rivalTable = document.getElementById("rivalsTable");
+let rivalTable = null;
 let ownTableDom = null;
-let rivalTableDom = rivalTable.cloneNode(true);
+let rivalTableDom = null;
 let shipsRival = document.getElementById("shipsRival");
 let shipsOwn = document.getElementById("shipsOwn");
 let shipsRivalDom = shipsRival.cloneNode(true);
@@ -28,14 +28,15 @@ let initialShips = [
     [0,0,1,1,1,0,0,0,0,0],
     [0,0,0,0,0,0,1,0,0,0]];
 
-generateTable('Your','ownTable', 10);
+generateTable('Your','ownTable', 10, true);
+generateTable(`Rival's`,'rivalsTable', 10, false);
 
 function start(){
     initialOwn();
     initialRival();
 }
 
-function generateTable(owner, id, size) {
+function generateTable(owner, id, size, drag) {
     let newTable = `<span>${owner} field</span><table class="tg" id=${id}><tr><th class="label"></th>`;
     //labels
     for(let i = 1; i <= size; i++){  
@@ -46,7 +47,7 @@ function generateTable(owner, id, size) {
     for(let i = 0; i < size; i++){
         newTable += `<tr><th class="label">${String.fromCharCode('A'.charCodeAt() + i)}</th>`
         for(let j = 0; j< size; j++){
-            if(initialShips[i][j] === 1){
+            if(initialShips[i][j] === 1 && drag){
                 newTable += `<td class="tg-ltxa" hovered=true x=${j+1} y=${i+1}> <div class="redips-drag"></div></td>`
             }else {
                 newTable += `<td class="tg-ltxa" x=${j+1} y=${i+1}></td>`
@@ -56,9 +57,15 @@ function generateTable(owner, id, size) {
     }
     newTable += '</table>'
 
-    document.getElementById('redips-drag').innerHTML = newTable;
-    ownTable = document.getElementById("ownTable");
-    ownTableDom = ownTable.cloneNode(true);;
+    if(id==='ownTable'){
+        document.getElementById('redips-drag').innerHTML = newTable;
+        ownTable = document.getElementById("ownTable");
+        ownTableDom = ownTable.cloneNode(true);
+    }else{
+        document.getElementById('rival').innerHTML = newTable;
+        rivalTable = document.getElementById("rivalsTable");
+        rivalTableDom = rivalTable.cloneNode(true);
+    }
 }
 
 function initialOwn () {
